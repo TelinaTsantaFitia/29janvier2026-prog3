@@ -77,3 +77,20 @@ create table if not exists dish_order
     id_dish  int references dish (id),
     quantity int
 );
+
+-- 1. Créer le type énuméré pour le statut de paiement
+CREATE TYPE payment_status AS ENUM ('UNPAID', 'PAID');
+
+-- 2. Créer la table 'sale' (Vente)
+-- Elle est simple car elle sert surtout de preuve de transaction
+CREATE TABLE sale (
+    id SERIAL PRIMARY KEY,
+    creation_datetime TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 3. Modifier la table 'order' existante
+-- ATTENTION : Le nom de table "order" est souvent un mot réservé,
+-- utilisez des guillemets si nécessaire : "order"
+ALTER TABLE "order"
+ADD COLUMN payment_status payment_status NOT NULL DEFAULT 'UNPAID',
+ADD COLUMN id_sale INTEGER UNIQUE REFERENCES sale(id);
