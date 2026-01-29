@@ -7,6 +7,8 @@ public class Order {
     private String reference;
     private Instant creationDatetime;
     private List<DishOrder> dishOrders;
+    private PaymentStatusEnum paymentStatus;
+
 
     @Override
     public boolean equals(Object o) {
